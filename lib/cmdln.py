@@ -38,7 +38,7 @@ details.
 
 from __future__ import print_function
 
-__version_info__ = (2, 0, 1)
+__version_info__ = (3, 0, 0)
 __version__ = '.'.join(map(str, __version_info__))
 
 
@@ -188,8 +188,7 @@ class RawCmdln(cmd.Cmd):
         version = (self.version is not None
                     and "%s %s" % (self._name_str, self.version)
                     or None)
-        return CmdlnOptionParser(self, version=version,
-                                 formatter_class=CmdlnFormatter)
+        return CmdlnOptionParser(self, formatter_class=CmdlnFormatter)
 
     def postoptparse(self):
         """Hook method executed just after `.main()' parses top-level
@@ -1133,7 +1132,7 @@ class Cmdln(RawCmdln):
             assert isinstance(optparser, SubCmdOptionParser)
             optparser.set_cmdln_info(self, argv[0])
             try:
-                opts, args = optparser.parse_args(argv[1:])
+                opts, args = optparser.parse_known_args(argv[1:])
             except StopOptionProcessing:
                 #TODO: this doesn't really fly for a replacement of
                 #      optparse.py behaviour, does it?

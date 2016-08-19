@@ -1,7 +1,7 @@
 # Why cmdln.py?
 
-`cmdln.py` fixes some of the design flaws in `cmd.py` and uses the 
-`optparse` module so that it is more useful (and convenient) for
+`cmdln.py` fixes some of the design flaws in `cmd.py` and uses the
+`argparse` module so that it is more useful (and convenient) for
 implementing command-line scripts/shells.
 
 The main differences are:
@@ -27,9 +27,11 @@ Install notes and intro docs are below. Please send any feedback to
 
 # Python Versions
 
-cmdln 2.x versions support Python 2.6, 2.7, 3.3 and 3.4.
+cmdln 3.x versions support Python 2.7 and >=3.2 (uses argparse)
 
-cmdln 1.x versions support Python 2.5, 2.6 and 2.7.
+cmdln 2.x versions support Python 2.6, 2.7, 3.3 and 3.4. (uses optparse)
+
+cmdln 1.x versions support Python 2.5, 2.6 and 2.7. (uses optparse)
 
 
 # Install
@@ -53,7 +55,7 @@ interpreters".  The idea (with both `cmd.py` and `cmdln.py`) is to be
 able to quickly build multi-sub-command tools (think `cvs` or `svn`)
 and/or simple interactive shells (think `gdb` or `pdb`).  `cmdln.py`'s
 extensions make it more natural to write sub-commands, integrate
-[optparse](http://docs.python.org/lib/module-optparse.html) for simple
+[argparse](https://docs.python.org/3/library/argparse.html) for simple
 option processing, and make having good command documentation easier.
 
 For example, here is most of the scaffolding for the [svn
@@ -118,7 +120,7 @@ control system).
         -v, --verbose       print extra information
         -u, --show-updates  display update information
 
-(3) It makes parsing the command line easy (with `optparse`
+(3) It makes parsing the command line easy (with `argparse`
 integration):
 
     $ python svn.py status -v foo bar baz
@@ -148,4 +150,3 @@ To attempt to run with all supported versions:
 On a particular version:
 
     make test34
-
