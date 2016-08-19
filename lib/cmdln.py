@@ -188,8 +188,7 @@ class RawCmdln(cmd.Cmd):
         version = (self.version is not None
                     and "%s %s" % (self._name_str, self.version)
                     or None)
-        return CmdlnOptionParser(self, version=version,
-                                 formatter_class=CmdlnFormatter)
+        return CmdlnOptionParser(self, formatter_class=CmdlnFormatter)
 
     def postoptparse(self):
         """Hook method executed just after `.main()' parses top-level
