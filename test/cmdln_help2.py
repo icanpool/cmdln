@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
 """
-    $ python cmdln_help2.py help
+    spawn python cmdln_help2.py help
     Usage:
         cmdln_help2.py COMMAND [ARGS...]
         cmdln_help2.py help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         documented     blah blah blah
         hashelpfunc    gobbledy gook
@@ -16,34 +16,26 @@
         undocumented
 
 
-    $ python cmdln_help2.py help documented
+    spawn python cmdln_help2.py help documented
     documented: blah blah blah
-    $ python cmdln_help2.py ? documented
+    spawn python cmdln_help2.py ? documented
     documented: blah blah blah
-
-
-    $ python cmdln_help2.py help hashelpfunc
+    spawn python cmdln_help2.py help hashelpfunc
     hashelpfunc: gobbledy gook
-
-
-    $ python cmdln_help2.py help undocumented
+    spawn python cmdln_help2.py help undocumented
     cmdln_help2.py: I don't know how to use 'undocumented'
-
-
-    $ python cmdln_help2.py help undefined
+    spawn python cmdln_help2.py help undefined
     cmdln_help2.py: wassup with this: 'undefined'
     Try 'cmdln_help2.py help' for info.
-
-
-    $ python cmdln_help2.py #expecttest: INTERACTIVE, PROMPT="help-test> "
+    spawn python cmdln_help2.py
     help-test> help
     Usage:
         COMMAND [ARGS...]
         help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         documented     blah blah blah
         hashelpfunc    gobbledy gook

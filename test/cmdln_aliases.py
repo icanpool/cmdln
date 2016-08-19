@@ -1,24 +1,26 @@
 #!/usr/bin/env python
 
 r"""
-    $ python cmdln_aliases.py foo
+    spawn python cmdln_aliases.py foo
     hello from foo
-    $ python cmdln_aliases.py f
+    spawn python cmdln_aliases.py f
     hello from foo
-    $ python cmdln_aliases.py !
+    spawn python cmdln_aliases.py !
     hello from foo
-
-    $ python cmdln_aliases.py help
+    spawn python cmdln_aliases.py help
     Usage:
         cmdln_aliases.py COMMAND [ARGS...]
         cmdln_aliases.py help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    usage: cmdln_aliases.py [-h]
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         foo (!, f)     shazam!
         help (?)       give detailed help on a specific sub-command
+
 
 """
 

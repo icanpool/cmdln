@@ -1,45 +1,45 @@
 #!/usr/bin/env python
 
 r"""
-    $ python cmdln_help_preprocess.py
+    spawn python cmdln_help_preprocess.py
     Usage:
         svn COMMAND [ARGS...]
         svn help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    usage: svn [-h]
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         help (?)           give detailed help on a specific sub-command
         status (st, stat)  Print the status of working copy files and directories.
-    <BLANKLINE>
+
     Additional help topics (run `svn help TOPIC'):
         foo
 
-
-    $ python cmdln_help_preprocess.py help
+    spawn python cmdln_help_preprocess.py help
     Usage:
         svn COMMAND [ARGS...]
         svn help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         help (?)           give detailed help on a specific sub-command
         status (st, stat)  Print the status of working copy files and directories.
-    <BLANKLINE>
+
     Additional help topics (run `svn help TOPIC'):
         foo
 
-
-    $ python cmdln_help_preprocess.py help status
+    spawn python cmdln_help_preprocess.py help status
     status (stat, st): Print the status of working copy files and directories.
-    <BLANKLINE>
+
     Usage:
         svn status [PATHS...]
-    <BLANKLINE>
-    Options:
+
+    optional arguments:
         -h, --help          show this help message and exit
         -u, --show-updates  display update information
         -v, --verbose       print extra information
@@ -47,15 +47,15 @@ r"""
                             operate on single directory only
         -q, --quiet         print as little as possible
         --no-ignore         disregard default and svn:ignore property ignores
-        --username=USERNAME
+        --username USERNAME
                             specify a username ARG
-        --password=PASSWORD
+        --password PASSWORD
                             specify a password ARG
         --no-auth-cache     do not cache authentication tokens
         --non-interactive   do no interactive prompting
-        --config-dir=CONFIG_DIR
+        --config-dir CONFIG_DIR
                             read user configuration files from directory ARG
-    <BLANKLINE>
+
     ...discussion...
 """
 

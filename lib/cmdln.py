@@ -47,6 +47,7 @@ import sys
 import re
 import cmd
 import optparse
+import argparse
 from pprint import pprint
 import sys
 import datetime
@@ -187,7 +188,8 @@ class RawCmdln(cmd.Cmd):
         version = (self.version is not None
                     and "%s %s" % (self._name_str, self.version)
                     or None)
-        return CmdlnOptionParser(self, version=version)
+        return CmdlnOptionParser(self, version=version,
+                                 formatter_class=CmdlnFormatter)
 
     def postoptparse(self):
         """Hook method executed just after `.main()' parses top-level
@@ -237,7 +239,7 @@ class RawCmdln(cmd.Cmd):
         self.optparser = self.get_optparser()
         if self.optparser: # i.e. optparser=None means don't process for opts
             try:
-                self.options, args = self.optparser.parse_args(argv[1:])
+                self.options, args = self.optparser.parse_known_args(argv[1:])
             except CmdlnUserError as ex:
                 msg = "%s: %s\nTry '%s help' for info.\n"\
                       % (self.name, ex, self.name)
@@ -624,8 +626,8 @@ class RawCmdln(cmd.Cmd):
             # - Indentation of 4 is better than optparse default of 2.
             #   C.f. Damian Conway's discussion of this in Perl Best
             #   Practices.
-            self.optparser.formatter.indent_increment = 4
-            self.optparser.formatter.current_indent = indent_width
+            # self.optparser.formatter_class.indent_increment = 4
+            # self.optparser.formatter_class.current_indent = indent_width
             block = self.optparser.format_option_help() + '\n'
         else:
             block = ""
@@ -834,8 +836,8 @@ class RawCmdln(cmd.Cmd):
             # - Indentation of 4 is better than optparse default of 2.
             #   C.f. Damian Conway's discussion of this in Perl Best
             #   Practices.
-            handler.optparser.formatter.indent_increment = 4
-            handler.optparser.formatter.current_indent = indent_width
+            # handler.optparser.formatter.indent_increment = 4
+            # handler.optparser.formatter.current_indent = indent_width
             block = handler.optparser.format_option_help() + '\n'
         else:
             block = ""
@@ -938,10 +940,18 @@ class StopOptionProcessing(Exception):
             sys.exit(0)
     """
 
-class _OptionParserEx(optparse.OptionParser):
-    """An optparse.OptionParser that uses exceptions instead of sys.exit.
 
-    This class is an extension of optparse.OptionParser that differs
+class CmdlnFormatter(argparse.HelpFormatter):
+
+    def __init__(self, prog, indent_increment=4, max_help_position=24,
+                 width=None):
+        super(CmdlnFormatter, self).__init__(prog, 4, 24, width)
+
+
+class _OptionParserEx(argparse.ArgumentParser):
+    """An argparse.OptionParser that uses exceptions instead of sys.exit.
+
+    This class is an extension of argparse.OptionParser that differs
     as follows:
     - Correct (IMO) the default OptionParser error handling to never
       sys.exit(). Instead OptParseError exceptions are passed through.
@@ -949,7 +959,7 @@ class _OptionParserEx(optparse.OptionParser):
       indicate normal termination of option processing.
       See StopOptionProcessing's docstring for details.
 
-    I'd also like to see the following in the core optparse.py, perhaps
+    I'd also like to see the following in the core argparse.py, perhaps
     as a RawOptionParser which would serve as a base class for the more
     generally used OptionParser (that works as current):
     - Remove the implicit addition of the -h|--help and --version
@@ -961,15 +971,25 @@ class _OptionParserEx(optparse.OptionParser):
       get in the way.
     """
     def error(self, msg):
-        raise optparse.OptParseError(msg)
+        raise argparse.ArgumentError(msg)
 
     def exit(self, status=0, msg=None):
         if status == 0:
             raise StopOptionProcessing(msg)
         else:
             #TODO: don't lose status info here
-            raise optparse.OptParseError(msg)
+            raise argparse.ArgumentError(msg)
 
+    def format_option_help(self):
+
+        formatter = self._get_formatter()
+        for action_group in self._action_groups:
+            formatter.start_section(action_group.title)
+            formatter.add_text(action_group.description)
+            formatter.add_arguments(action_group._group_actions)
+            formatter.end_section()
+
+        return formatter.format_help()
 
 
 #---- optparse.py-based option processing support
@@ -992,8 +1012,7 @@ class CmdlnOptionParser(_OptionParserEx):
     def __init__(self, cmdln, **kwargs):
         self.cmdln = cmdln
         kwargs["prog"] = self.cmdln.name
-        _OptionParserEx.__init__(self, **kwargs)
-        self.disable_interspersed_args()
+        super(CmdlnOptionParser, self).__init__(**kwargs)
 
     def print_help(self, file=None):
         self.cmdln.onecmd(["help"])
@@ -1031,8 +1050,8 @@ def option(*args, **kwargs):
     #    large stack depth here?
     def decorate(f):
         if not hasattr(f, "optparser"):
-            f.optparser = SubCmdOptionParser()
-        f.optparser.add_option(*args, **kwargs)
+            f.optparser = SubCmdOptionParser(formatter_class=CmdlnFormatter)
+        f.optparser.add_argument(*args, **kwargs)
         return f
     return decorate
 
