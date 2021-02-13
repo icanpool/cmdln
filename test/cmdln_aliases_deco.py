@@ -1,28 +1,28 @@
 #!/usr/bin/env python
 
 """
-    $ python cmdln_aliases_deco.py foo
+    spawn python cmdln_aliases_deco.py foo
     hello from foo
-    $ python cmdln_aliases_deco.py f
+    spawn python cmdln_aliases_deco.py f
     hello from foo
-    $ python cmdln_aliases_deco.py !
+    spawn python cmdln_aliases_deco.py !
     hello from foo
-
-    $ python cmdln_aliases_deco.py bar
+    spawn python cmdln_aliases_deco.py bar
     hello from bar
-    $ python cmdln_aliases_deco.py ba
+    spawn python cmdln_aliases_deco.py ba
     hello from bar
-    $ python cmdln_aliases_deco.py b
+    spawn python cmdln_aliases_deco.py b
     hello from bar
-
-    $ python cmdln_aliases_deco.py help
+    spawn python cmdln_aliases_deco.py help
     Usage:
         cmdln_aliases_deco.py COMMAND [ARGS...]
         cmdln_aliases_deco.py help [COMMAND]
-    <BLANKLINE>
-    Options:
+
+    usage: cmdln_aliases_deco.py [-h]
+
+    optional arguments:
         -h, --help  show this help message and exit
-    <BLANKLINE>
+
     Commands:
         bar (b, ba)    whopee!
         foo (!, f)     shazam!
